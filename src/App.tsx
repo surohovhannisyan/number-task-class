@@ -2,7 +2,7 @@ import React from "react";
 import "./style.css";
 
 interface IDataRecord {
-  label: string; // uniq
+  label: string;
   value: number;
 }
 
@@ -45,7 +45,7 @@ export default class App extends React.Component<
           <Row
             data={el}
             index={index}
-            key={index}
+            key={el.label}
             onUpdate={this.handleUpdate}
           />
         ))}
@@ -60,18 +60,12 @@ interface IRowProps {
   onUpdate: (index: number) => void;
 }
 
-class Row extends React.Component<IRowProps> {
+class Row extends React.PureComponent<IRowProps> {
   renderCount = 0;
 
   handleUpdate = () => {
     this.props.onUpdate(this.props.index);
   };
-  shouldComponentUpdate(prevProps: IRowProps) {
-    if (prevProps.data !== this.props.data) {
-      return true;
-    }
-    return false;
-  }
 
   render() {
     const {
@@ -79,7 +73,6 @@ class Row extends React.Component<IRowProps> {
     } = this.props;
 
     this.renderCount++;
-
     return (
       <div>
         <span className="label">{label}:</span>
